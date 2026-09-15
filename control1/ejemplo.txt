@@ -1,6 +1,0 @@
-FUENTE SensorTemperatura #comentario
-OPERADOR FiltroRuido TIEMPO_SERVICIO 10
-SUMIDERO BaseDatos
-CONECTAR SensorTemperatura A FiltroRuido
-CONECTAR FiltroRuido A BaseDatos
-SIMULAR 3
