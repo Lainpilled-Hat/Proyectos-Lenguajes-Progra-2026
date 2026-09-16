@@ -5,7 +5,6 @@
 - ply.lex
 - Makefile
 
----
 # Modo de Uso:
 
 En el directorio ./control1, ejecutar el siguiente comando:
@@ -25,7 +24,6 @@ make
 make [VENV] clean
 ```
 
----
 # Problema:
 
 FUENTE genera o captura tuplas desde el exterior y las inyecta en la topología
@@ -36,7 +34,6 @@ Hay algunos casos en que el procesamiento realizado por un operador es demasiado
 
 “Evento" de simulación corresponde al recorrido completo que hace una tupla, desde que es generada por una FUENTE hasta que es consumida por un SUMIDERO, pasando por los OPERADORES intermedios que la transforman.
 
----
 
 # Expresiones regulares:
 ```
@@ -64,29 +61,24 @@ Hay algunos casos en que el procesamiento realizado por un operador es demasiado
 |            |                                      | filass de ejecución                  |
 |------------|--------------------------------------|--------------------------------------|
 ```
----
 
 # Contenidos:
 
 ## Gramática Libre de contexto:
 - Análisis Sintáctico - parser.py
 
----
 
 ## Tabla de simbolos:
 - simbolos.py
 
----
 
 ## Construcción de la Topología:
 - grafo.py
 
---- 
 
 ## Validación de Reglas Estructurales:
 - simulador.py
 
----
 
 # Ejemplos:
 
@@ -121,7 +113,6 @@ Evento 3: FUENTE SensorTemperatura -> OPERADOR FiltroRuido (T: 10) -> SUMIDERO B
 Tiempo total acumulado: 10
 ```
 
----
 
 ## Ejemplo correcto con replicas:
 - ejemploreplicas.txt
@@ -158,7 +149,6 @@ Tiempo total acumulado: 5
 
 ```
 
----
 
 ## Ejemplo error semántico:
 La tabla de símbolos valida que inexistente nunca fue declarado con OPERADOR, deteniendo el programa antes de construir la red.
@@ -175,7 +165,6 @@ SIMULAR 1
 Error semántico: el nodo 'inexistente' no existe.
 ```
 
----
 
 ## Ejemplo error sintáctico:
 A la instrucción OPERADOR op1 TIEMPO_SERVICIO le falta el NUMERO entero al final exigido por la GLC.
@@ -196,7 +185,6 @@ Error sintáctico: token inesperado 'SUMIDERO' en la línea 3
 
 Esta prueba nos hizo ver que el manejo de error esta incorrecto, ya que nos salian 2 errores. Por lo que decidimos que el programa se detendrá al detectar el primer error.
 
----
 
 ## Ejemplo error léxico:
 
@@ -217,7 +205,6 @@ SIMULAR 1
 Error léxico: carácter inesperado '$' en la línea 2
 ```
 
----
 
 ## Ejemplo error sin sumidero:
 El simulador detecta que los datos no tienen un lugar a donde llegar para terminar su recorrido, ya que falta el SUMIDERO.
@@ -243,7 +230,6 @@ Simulación:
 Error semántico: la topología debe tener al menos un SUMIDERO.
 ```
 
----
 
 ## Prompts dados a la IA:
 
