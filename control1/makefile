@@ -11,7 +11,7 @@ help:
 	@echo "[INPUT]: INPUT=ejemplo.txt"
 
 run: $(VENV)/bin/activate
-	python main.py $(INPUT)
+	$(PYTHON) main.py $(INPUT)
 
 $(VENV)/bin/activate: requirements.txt
 	python -m venv $(VENV)
