@@ -69,6 +69,16 @@ Hay algunos casos en que el procesamiento realizado por un operador es demasiado
 ## Gramática Libre de contexto:
 - Análisis Sintáctico - parser.py
 
+```text
+programa        -> instrucciones
+instrucciones   -> instrucciones instruccion | instruccion
+instruccion     -> FUENTE ID
+                 | OPERADOR ID TIEMPO_SERVICIO NUMERO
+                 | OPERADOR ID TIEMPO_SERVICIO NUMERO REPLICAS NUMERO
+                 | SUMIDERO ID
+                 | CONECTAR ID A ID
+                 | SIMULAR NUMERO
+
 
 ## Tabla de simbolos:
 - simbolos.py
@@ -81,6 +91,9 @@ Hay algunos casos en que el procesamiento realizado por un operador es demasiado
 ## Validación de Reglas Estructurales:
 - simulador.py
 
+## Decisión de diseño en réplicas consecutivas
+
+Cuando un nodo se conecta con un operador que tiene varias réplicas, se utiliza un sistema de balanceo **Round-Robin**. Para esto, se usa un contador que va indicando a qué réplica se debe enviar cada evento, utilizando `contador % destino.replicas`. De esta forma, los eventos se van distribuyendo de manera ordenada entre las distintas instancias (instancia-1, instancia-2,...), evitando que todos lleguen a la misma réplica y permitiendo simular una mejor distribución de la carga.
 
 # Ejemplos:
 
