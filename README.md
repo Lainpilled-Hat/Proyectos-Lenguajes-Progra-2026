@@ -78,7 +78,7 @@ instruccion     -> FUENTE ID
                  | SUMIDERO ID
                  | CONECTAR ID A ID
                  | SIMULAR NUMERO
-
+```
 
 ## Tabla de simbolos:
 - simbolos.py
