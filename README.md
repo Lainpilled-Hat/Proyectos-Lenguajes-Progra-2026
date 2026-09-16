@@ -3,26 +3,28 @@
 - ply
 - ply.yacc
 - ply.lex
+- Makefile
 
----
-# Instalación:
-1) Clonar el repo
-2) En una terminal, en el directorio ./control1, ejecutar el siguiente comando:
-```
-pip install -r requirements.txt
-```
 ---
 # Modo de Uso:
 
 En el directorio ./control1, ejecutar el siguiente comando:
+
 ```
-python main.py [Archivo de texto]
+make [VENV] [INPUT] run
 ```
-, Con [Archivo de texto] siendo el input que se le va a dar al programa.
-Ejemplo:
+Ejemplo de uso:
 ```
-python main.py ejemplo.txt
+make VENV=lenguajesprogra INPUT=./ejemplo.txt run 
 ```
+
+Otros comandos:
+```
+make help
+make
+make [VENV] clean
+```
+
 ---
 # Problema:
 
@@ -248,4 +250,3 @@ Error semántico: la topología debe tener al menos un SUMIDERO.
 - explicame como hacer la tarea del archivo adjunto 
 - explicame como construir un gráfico de procesamiento 
 - revisa si el codigo adjunto cumple con todo lo pedido en el archivo Control I 2026, en caso que no cumpla algo mencionamelo
-- generame el makefile para la correcta ejecución del codigo enviado
