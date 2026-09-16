@@ -6,6 +6,7 @@ __pycache__/
 # Outputs
 *.out
 parsetab.py
+
 # C extensions
 *.so
 
