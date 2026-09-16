@@ -5,6 +5,8 @@
 - ply.lex
 - Makefile
 
+[Link Canva](https://www.canva.com/design/DAHUWL3BRBo/evR9vjDOjvCdBQYFBQ6leQ/edit)
+
 # Modo de Uso:
 
 En el directorio ./control1, ejecutar el siguiente comando:
