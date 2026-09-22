@@ -1,0 +1,4 @@
+FUENTE f1
+SUMIDERO s1
+CONECTAR f1 A inexistente
+SIMULAR 1
