@@ -17,6 +17,7 @@ $(VENV)/bin/activate: requirements.txt
 	python -m venv $(VENV)
 	$(PIP) install -r requirements.txt
 
+
 clean:
 	rm -rf __pycache__ parsetab.py parser.out
 	rm -rf $(VENV)

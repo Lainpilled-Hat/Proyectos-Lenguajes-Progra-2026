@@ -1,7 +1,7 @@
 # Tecnologías usadas:
 - Python
 - Makefile
-- lark
+- ANTLR
 
 
 # Modo de Uso:
