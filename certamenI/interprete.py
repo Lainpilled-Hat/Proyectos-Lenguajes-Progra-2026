@@ -9,12 +9,12 @@ class InterpreteTuring:
         self.estado_actual = maquina.estado_inicial
         self.paso = 0
 
-    def ejecutar(self, max_pasos: int = 500):
+    def ejecutar(self):
         print("\n--- INICIO DE LA SIMULACIÓN ---")
         print(f"{'Paso':<6} | {'Estado':<12} | {'Lee':<5} | Traza de la Cinta")
         print("-" * 65)
 
-        while self.paso < max_pasos:
+        while 1 == 1:
             if self.cabezal < 0:
                 self.cinta.insert(0, self.maquina.simbolo_blanco)
                 self.cabezal = 0
@@ -46,5 +46,5 @@ class InterpreteTuring:
             elif trans.movimiento == Direccion.IZQ: self.cabezal -= 1
 
             self.paso += 1
-        if self.paso >= 500:
-            raise   ValueError("Error: La cinta sobrepasó el límite de pasos")
+#        if self.paso >= 500:
+#           raise   ValueError("Error: La cinta sobrepasó el límite de pasos")
