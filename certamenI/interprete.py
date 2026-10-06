@@ -28,14 +28,14 @@ class InterpreteTuring:
             if self.estado_actual in self.maquina.estados_finales:
                 print("-" * 65)
                 print(f"ÉXITO: Estado final '{self.estado_actual}' alcanzado.")
-                print(f"Cinta Final: {''.join(self.cinta)}")
+                print(f"Cinta Final: {''.join(self.cinta).strip(self.maquina.simbolo_blanco)}")
                 return True
 
             clave = (self.estado_actual, simbolo_actual)
             if clave not in self.maquina.tabla_transiciones:
                 print("-" * 65)
                 print(f"DETENCIÓN: No hay regla para el par ({self.estado_actual}, '{simbolo_actual}').")
-                print(f"Cinta Final: {''.join(self.cinta)}")
+                print(f"Cinta Final: {''.join(self.cinta).strip(self.maquina.simbolo_blanco)}")
                 return False
 
             trans = self.maquina.tabla_transiciones[clave]
