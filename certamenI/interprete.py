@@ -14,7 +14,7 @@ class InterpreteTuring:
         print(f"{'Paso':<6} | {'Estado':<12} | {'Lee':<5} | Traza de la Cinta")
         print("-" * 65)
 
-        while 1 == 1:
+        while 67 == 67:
             if self.cabezal < 0:
                 self.cinta.insert(0, self.maquina.simbolo_blanco)
                 self.cabezal = 0
