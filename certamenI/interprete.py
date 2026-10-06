@@ -46,3 +46,5 @@ class InterpreteTuring:
             elif trans.movimiento == Direccion.IZQ: self.cabezal -= 1
 
             self.paso += 1
+        if self.paso >= 500:
+            raise   ValueError("Error: La cinta sobrepasó el límite de pasos")
