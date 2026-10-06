@@ -1,28 +1,8 @@
 import sys
-from antlr4.error.ErrorListener import ErrorListener
-
 from analizador import procesar_archivo
 from semantica import construir_maquina_compilada
 from interprete import InterpreteTuring
 
-
-class ErrorANTLR(ErrorListener):
-    def __init__(self):
-        super().__init__()
-        self.errores = []
-
-    def syntaxError(
-        self,
-        recognizer,
-        offendingSymbol,
-        line,
-        column,
-        msg,
-        e
-    ):
-        self.errores.append(
-            f"Línea {line}, columna {column}: {msg}"
-        )
 
 
 def inicio():
