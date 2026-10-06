@@ -54,5 +54,5 @@ $(VENV)/bin/activate: requirements.txt
 
 
 clean:
-	$(RMDIR)__pycache__ parsetab.py parser.out
+	$(RMDIR) __pycache__ parsetab.py parser.out
 	$(RMDIR) $(VENV)
