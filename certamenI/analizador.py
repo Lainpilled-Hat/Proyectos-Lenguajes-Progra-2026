@@ -14,7 +14,7 @@ from nodos import (
     ProgramaAST
 )
 
-
+# Almacena los errores
 class ErrorANTLR(ErrorListener):
 
     def __init__(self):
@@ -35,66 +35,109 @@ class ErrorANTLR(ErrorListener):
         )
 
 
+# Recorre el árbol sintáctico
 class TransformadorAST(TuringDSLVisitor):
 
-    def visitPrograma(
+    def visitPrograma(self, ctx):
+        return self.programa(ctx)
+
+    def visitSubrutina(self, ctx):
+        return self.subrutina(ctx)
+
+    def visitMaquina(self, ctx):
+        return self.maquina(ctx)
+
+    def visitAlfabeto(self, ctx):
+        return self.alfabeto(ctx)
+
+    def visitEstados(self, ctx):
+        return self.estados(ctx)
+
+    def visitInicial(self, ctx):
+        return self.inicial(ctx)
+
+    def visitFinales(self, ctx):
+        return self.finales(ctx)
+
+    def visitUsa_subrutina(self, ctx):
+        return self.usa_subrutina(ctx)
+
+    def visitTransiciones(self, ctx):
+        return self.transiciones(ctx)
+
+    def visitReglas(self, ctx):
+        return self.reglas(ctx)
+
+    def visitRegla(self, ctx):
+        return self.regla(ctx)
+
+    # Procesa el programa
+    def programa(
         self,
         ctx: TuringDSLParser.ProgramaContext
     ):
+        # Listas para almacenar subrutinas y máquinas
         subs = []
         maqs = []
 
-        for child in ctx.children:
-
+        # Recorre los elementos que forman el programa
+        for i in ctx.children:
+            # Si el elemento es una subrutina, se agrega a la lista
             if isinstance(
-                child,
+                i,
                 TuringDSLParser.SubrutinaContext
             ):
-                subs.append(self.visit(child))
+                subs.append(self.visit(i))
 
+            # Si el elemento es una maquina, se agrega a la lista
             elif isinstance(
-                child,
+                i,
                 TuringDSLParser.MaquinaContext
             ):
-                maqs.append(self.visit(child))
+                maqs.append(self.visit(i))
+ 
+        return ProgramaAST(subs, maqs) # Devuelve el AST del programa
 
-        return ProgramaAST(subs, maqs)
-
-    def visitSubrutina(
+    # Definición de una subrutina
+    def subrutina(
         self,
         ctx: TuringDSLParser.SubrutinaContext
     ):
-        nombre = ctx.CNAME(0).getText()
-        param = ctx.CNAME(1).getText()
-        reglas = self.visit(ctx.reglas())
+        nombre = ctx.CNAME(0).getText() # Nombre de la subrutina
+        param = ctx.CNAME(1).getText() # Nombre del parámetro
+        reglas = self.visit(ctx.reglas()) #  Reglas que forman la subrutina
 
+         # Construye el nodo AST
         return SubrutinaAST(
             nombre,
             param,
             reglas
         )
 
-    def visitMaquina(
+    # Definición de una máquina
+    def maquina(
         self,
         ctx: TuringDSLParser.MaquinaContext
     ):
-        nombre = ctx.CNAME().getText()
-        alf = self.visit(ctx.alfabeto())
-        est = self.visit(ctx.estados())
-        ini = self.visit(ctx.inicial())
-        fin = self.visit(ctx.finales())
+        nombre = ctx.CNAME().getText() # Nombre de la máquina
+        alf = self.visit(ctx.alfabeto()) # Alfabeto de la máquina
+        est = self.visit(ctx.estados()) # Estados de la máquina
+        ini = self.visit(ctx.inicial()) # Estado inicial de la máquina
+        fin = self.visit(ctx.finales()) # Estados finales de la máquina
 
+        # Subrutinas utilizadas por la máquina
         subs = [
             self.visit(u)
             for u in ctx.usa_subrutina()
         ]
 
-        trans = self.visit(ctx.transiciones())
+        trans = self.visit(ctx.transiciones())  # Transiciones de la máquina
 
+        # Construye el nodo AST de la máquina
         return MaquinaAST(
             nombre,
             alf,
-            "_",
+            "_", # Símbolo blanco
             est,
             ini,
             fin,
@@ -102,16 +145,19 @@ class TransformadorAST(TuringDSLVisitor):
             trans
         )
 
-    def visitAlfabeto(
+    # Alfabeto de la máquina
+    def alfabeto(
         self,
         ctx: TuringDSLParser.AlfabetoContext
     ):
+        # Obtiene todos los símbolos declarados y los almacena
         return {
             s.getText()
             for s in ctx.simbolo()
         }
 
-    def visitEstados(
+    # Estados declarados de la máquina
+    def estados(
         self,
         ctx: TuringDSLParser.EstadosContext
     ):
@@ -120,13 +166,15 @@ class TransformadorAST(TuringDSLVisitor):
             for e in ctx.CNAME()
         }
 
-    def visitInicial(
+    # Estado inicial de la máquina
+    def inicial(
         self,
         ctx: TuringDSLParser.InicialContext
     ):
-        return ctx.CNAME().getText()
+        return ctx.CNAME().getText()  # Devuelve el nombre del estado inicial
 
-    def visitFinales(
+    # Estados finales de la máquina
+    def finales(
         self,
         ctx: TuringDSLParser.FinalesContext
     ):
@@ -135,22 +183,26 @@ class TransformadorAST(TuringDSLVisitor):
             for e in ctx.CNAME()
         }
 
-    def visitUsa_subrutina(
+    # Uso de una subrutina
+    def usa_subrutina(
         self,
         ctx: TuringDSLParser.Usa_subrutinaContext
     ):
+        # Obtiene el nombre de la subrutina
         return InvocacionSubrutinaAST(
             ctx.CNAME().getText(),
             int(ctx.INT().getText())
         )
 
-    def visitTransiciones(
+    # Transiciones de una máquina
+    def transiciones(
         self,
         ctx: TuringDSLParser.TransicionesContext
     ):
         return self.visit(ctx.reglas())
 
-    def visitReglas(
+    # Reglas de transición de una máquina
+    def reglas(
         self,
         ctx: TuringDSLParser.ReglasContext
     ):
@@ -159,18 +211,21 @@ class TransformadorAST(TuringDSLVisitor):
             for r in ctx.regla()
         ]
 
-    def visitRegla(
+    # Regla de transición individual
+    def regla(
         self,
         ctx: TuringDSLParser.ReglaContext
     ):
-        orig = ctx.CNAME(0).getText()
-        lee = ctx.simbolo(0).getText()
-        dest = ctx.CNAME(1).getText()
-        esc = ctx.simbolo(1).getText()
-        mov = Direccion[
-            ctx.DIRECCION().getText()
-        ]
+        orig = ctx.CNAME(0).getText() # Estado de origen
+        lee = ctx.simbolo(0).getText() # Símbolo que se lee
+        dest = ctx.CNAME(1).getText() # Estado de destino
+        esc = ctx.simbolo(1).getText() # Símbolo que se escribe en la cinta
 
+        # Busca dentro del Enum Direccion el elemento que coincide con el texto de la dirección obtenida 
+        mov = Direccion[
+            ctx.DIRECCION().getText() 
+        ]
+        # Construye el nodo AST de la regla
         return ReglaAST(
             orig,
             lee,
@@ -179,39 +234,42 @@ class TransformadorAST(TuringDSLVisitor):
             mov
         )
 
-
+# Procesa un archivo .tm y lo devuelve como AST
 def procesar_archivo(
     ruta_archivo: str
 ) -> ProgramaAST:
 
+    # Abre el archivo
     input_stream = FileStream(
         ruta_archivo,
         encoding="utf-8"
     )
 
-    lexer = TuringDSLLexer(input_stream)
+    lexer = TuringDSLLexer(input_stream) # Lexer de ANTLR para reconocer los token
 
-    errores_lexer = ErrorANTLR()
-
+    # Capturar errores léxicos
+    errores_lexer = ErrorANTLR() 
     lexer.removeErrorListeners()
     lexer.addErrorListener(errores_lexer)
 
-    stream = CommonTokenStream(lexer)
+    stream = CommonTokenStream(lexer) # Crea el flujo de tokens generado por el lexer
 
-    parser = TuringDSLParser(stream)
+    parser = TuringDSLParser(stream) # Crea el parser utilizando los tokens
 
+     # Capturar errores sintácticos
     errores_parser = ErrorANTLR()
-
     parser.removeErrorListeners()
     parser.addErrorListener(errores_parser)
 
-    tree = parser.programa()
+    tree = parser.programa() # Comienza el análisis desde la regla inicial
 
+    # Junta los errores léxicos y sintácticos.
     errores = (
         errores_lexer.errores
         + errores_parser.errores
     )
 
+    # Informa error
     if errores:
         mensaje = "\n".join(errores)
 
@@ -220,6 +278,6 @@ def procesar_archivo(
             + mensaje
         )
 
-    visitor = TransformadorAST()
+    visitor = TransformadorAST() # Crea el "Visitor" que recorrerá el árbol
 
-    return visitor.visit(tree)
+    return visitor.visit(tree) # Convierte el árbol sintáctico en AST

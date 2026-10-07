@@ -1,5 +1,4 @@
-# DEFINICIÓN DE LA SUBRUTINA
-# Recibe un parámetro N. Al compilar, la 'N' se reemplaza por el número entero indicado.
+# Recibe un parámetro N. Al compilar, la 'N' se reemplaza por el número entero indicado, mostrandolo en la salida de la cinta final.
 subrutina marcar_celdas(N) {
     q_paso_N, _ -> q_fin_N, 1, DER
 }
