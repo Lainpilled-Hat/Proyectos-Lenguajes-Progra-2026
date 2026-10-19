@@ -11,6 +11,7 @@ subrutina : 'subrutina' CNAME '(' CNAME ')' '{' reglas '}' ;
 // Define una máquina 
 maquina : 'maquina' CNAME '{' 
             alfabeto 
+            blanco
             estados 
             inicial 
             finales 
@@ -19,20 +20,21 @@ maquina : 'maquina' CNAME '{'
           '}' ;
 
 // Define todo lo que construye la máquina.
+direccion  : 'direccion' ':' simbolo ;
+blanco     : 'blanco' ':' simbolo ;
 alfabeto   : 'alfabeto' ':' simbolo (',' simbolo)* ;
 estados    : 'estados' ':' CNAME (',' CNAME)* ;
 inicial    : 'inicio' ':' CNAME ;
 finales    : 'finales' ':' CNAME (',' CNAME)* ;
-usa_subrutina : 'usa' CNAME '(' INT ')' ;
+usa_subrutina : CNAME '(' CNAME ')' ;
 
 transiciones : 'transiciones' ':' '{' reglas '}' ;
 reglas       : regla* ;
-regla        : CNAME ',' simbolo '->' CNAME ',' simbolo ',' DIRECCION ;
+regla        : CNAME ',' simbolo '->' CNAME ',' simbolo ',' direccion ;
 
-simbolo      : CNAME | INT ;
+simbolo      : CNAME ;
 
 // REGLAS LÉXICAS (ER). Cómo se reconocen los tokens
-DIRECCION : 'IZQ' | 'DER' | 'QUIETO' ;
 CNAME     : [a-zA-Z_][a-zA-Z0-9_]* ;
 INT       : [0-9]+ ;
 

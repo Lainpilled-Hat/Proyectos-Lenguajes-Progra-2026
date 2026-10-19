@@ -2,12 +2,14 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import List, Set, Dict
 
+# !TODO ver ramificaciones de esto en el lenguaje
 
 # Direcciones En las que se puede mover el cabezal
-class Direccion(Enum):
-    IZQ = "IZQ"
-    DER = "DER"
-    QUIETO = "QUIETO"
+@dataclass
+class Direccion:
+    DER: str
+    IZQ: str
+    QUIETO: str
 
 # Regla de transición de una Máquina de Turing
 @dataclass
@@ -36,7 +38,8 @@ class SubrutinaAST:
 class MaquinaAST:
     nombre: str
     alfabeto: Set[str] = field(default_factory=set)
-    simbolo_blanco: str = "_"
+    # !TODO: Ver cómo cambiar a símbolo blanco cualquiera sacado de la entrada
+    simbolo_blanco: Set[str] = field(default_factory=set)
     estados: Set[str] = field(default_factory=set)
     estado_inicial: str = ""
     estados_finales: Set[str] = field(default_factory=set)

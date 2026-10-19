@@ -46,7 +46,10 @@ class TransformadorAST(TuringDSLVisitor):
 
     def visitMaquina(self, ctx):
         return self.maquina(ctx)
-
+    
+    def visitSimboloBlanco(self, ctx):
+        return self.simbolo_blanco(ctx)
+    
     def visitAlfabeto(self, ctx):
         return self.alfabeto(ctx)
 
@@ -124,7 +127,8 @@ class TransformadorAST(TuringDSLVisitor):
         est = self.visit(ctx.estados()) # Estados de la máquina
         ini = self.visit(ctx.inicial()) # Estado inicial de la máquina
         fin = self.visit(ctx.finales()) # Estados finales de la máquina
-
+        simbolo_blanco = self.visit(ctx.simbolo_blanco()) # Símbolo blanco de la máquina
+    
         # Subrutinas utilizadas por la máquina
         subs = [
             self.visit(u)
@@ -137,7 +141,7 @@ class TransformadorAST(TuringDSLVisitor):
         return MaquinaAST(
             nombre,
             alf,
-            "_", # Símbolo blanco
+            simbolo_blanco, 
             est,
             ini,
             fin,
@@ -182,7 +186,13 @@ class TransformadorAST(TuringDSLVisitor):
             e.getText()
             for e in ctx.CNAME()
         }
-
+    
+    def simbolo_blanco(
+        self,
+        ctx: TuringDSLParser.Simbolo_blancoContext
+    ):
+        return ctx.simbolo().getText()  # Devuelve el símbolo blanco
+    
     # Uso de una subrutina
     def usa_subrutina(
         self,
@@ -190,8 +200,7 @@ class TransformadorAST(TuringDSLVisitor):
     ):
         # Obtiene el nombre de la subrutina
         return InvocacionSubrutinaAST(
-            ctx.CNAME().getText(),
-            int(ctx.INT().getText())
+            ctx.CNAME().getText()
         )
 
     # Transiciones de una máquina

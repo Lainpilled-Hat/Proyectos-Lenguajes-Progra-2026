@@ -115,7 +115,10 @@ def construir_maquina_compilada(
             "Error Semántico: El alfabeto no puede estar vacío."
         )
 
+    # !TODO Corregir esto
+
     if "_" not in m_ast.alfabeto:
+        print("simbolo blanco: ", m_ast.simbolo_blanco)
         raise ValueError(
             "Error Semántico: El alfabeto debe incluir "
             "el símbolo blanco '_'."
