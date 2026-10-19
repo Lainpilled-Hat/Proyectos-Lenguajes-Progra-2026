@@ -45,10 +45,7 @@ help:
 	@echo "[VENV]: VENV=venv"
 	@echo "[INPUT1]: INPUT1=ejemplo.tm"
 	@echo "[INPUT2]: INPUT2=1011"
-	@echo "UNIX Status"
-	@echo $(IS_UNIX)
-	@echo "Windows Status"
-	@echo $(IS_WINDOWS)
+
 $(VENV)/bin/activate: requirements.txt
 	python -m venv $(VENV)
 	$(PIP) install -r requirements.txt
