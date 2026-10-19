@@ -68,6 +68,7 @@ class TuringDSLVisitor(ParseTreeVisitor):
     def visitSimbolo(self, ctx:TuringDSLParser.SimboloContext):
         return self.visitChildren(ctx)
 
+    # TODO Visit parse tree produced by simbolo blanco
 
 
 del TuringDSLParser

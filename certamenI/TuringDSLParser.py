@@ -62,7 +62,7 @@ class TuringDSLParser ( Parser ):
     literalNames = [ "<INVALID>", "'subrutina'", "'('", "')'", "'{'", "'}'", 
                      "'maquina'", "'alfabeto'", "':'", "','", "'estados'", 
                      "'inicio'", "'finales'", "'usa'", "'transiciones'", 
-                     "'->'" ]
+                     "'simbolo_blanco'", "'->'" ]
 
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
@@ -82,10 +82,11 @@ class TuringDSLParser ( Parser ):
     RULE_reglas = 9
     RULE_regla = 10
     RULE_simbolo = 11
+    RULE_simbolo_blanco = 12
 
     ruleNames =  [ "programa", "subrutina", "maquina", "alfabeto", "estados", 
                    "inicial", "finales", "usa_subrutina", "transiciones", 
-                   "reglas", "regla", "simbolo" ]
+                   "reglas", "regla", "simbolo", "simbolo_blanco" ]
 
     EOF = Token.EOF
     T__0=1
@@ -103,11 +104,12 @@ class TuringDSLParser ( Parser ):
     T__12=13
     T__13=14
     T__14=15
-    DIRECCION=16
-    CNAME=17
-    INT=18
+    T__15=16
+    DIRECCION=17
+    CNAME=18
     WS=19
     COMENTARIO=20
+    SIMBOLO_BLANCO=21
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -140,7 +142,6 @@ class TuringDSLParser ( Parser ):
                 return self.getTypedRuleContexts(TuringDSLParser.MaquinaContext)
             else:
                 return self.getTypedRuleContext(TuringDSLParser.MaquinaContext,i)
-
 
         def getRuleIndex(self):
             return TuringDSLParser.RULE_programa
@@ -297,7 +298,9 @@ class TuringDSLParser ( Parser ):
         def finales(self):
             return self.getTypedRuleContext(TuringDSLParser.FinalesContext,0)
 
-
+        def simbolo_blanco(self):
+            return self.getTypedRuleContext(TuringDSLParser.Simbolo_blancoContext,0)
+        
         def transiciones(self):
             return self.getTypedRuleContext(TuringDSLParser.TransicionesContext,0)
 
@@ -439,8 +442,54 @@ class TuringDSLParser ( Parser ):
         finally:
             self.exitRule()
         return localctx
+    
+    class Simbolo_blancoContext(ParserRuleContext):
+            __slots__ = 'parser'
+
+            def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+                super().__init__(parent, invokingState)
+                self.parser = parser
+
+            def simbolo(self):
+                return self.getTypedRuleContext(TuringDSLParser.SimboloContext,0)
 
 
+            def getRuleIndex(self):
+                return TuringDSLParser.RULE_simbolo_blanco
+
+            def enterRule(self, listener:ParseTreeListener):
+                if hasattr( listener, "enterSimbolo_blanco" ):
+                    listener.enterSimbolo_blanco(self)
+
+            def exitRule(self, listener:ParseTreeListener):
+                if hasattr( listener, "exitSimbolo_blanco" ):
+                    listener.exitSimbolo_blanco(self)
+
+            def accept(self, visitor:ParseTreeVisitor):
+                if hasattr( visitor, "visitSimbolo_blanco" ):
+                    return visitor.visitSimbolo_blanco(self)
+                else:
+                    return visitor.visitChildren(self)
+ # !TODO verificar funcionalidad del código y correcta estructura
+    def simbolo_blanco(self):
+        localctx = TuringDSLParser.Simbolo_blancoContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 14, self.RULE_simbolo_blanco)
+        try: # TODO Verificar de dónde chucha salen estos estados y T__14/T__7.
+            self.enterOuterAlt(localctx, 1)
+            self.state = 78
+            self.match(TuringDSLParser.T__14)
+            self.state = 79
+            self.match(TuringDSLParser.T__7)
+            self.state = 80
+            self.simbolo()
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+    
     class EstadosContext(ParserRuleContext):
         __slots__ = 'parser'
 
@@ -557,8 +606,10 @@ class TuringDSLParser ( Parser ):
         finally:
             self.exitRule()
         return localctx
+    '''
+   
 
-
+    '''
     class FinalesContext(ParserRuleContext):
         __slots__ = 'parser'
 

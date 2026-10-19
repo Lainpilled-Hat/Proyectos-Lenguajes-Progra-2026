@@ -114,7 +114,7 @@ class TuringDSLListener(ParseTreeListener):
     # Exit a parse tree produced by TuringDSLParser#simbolo.
     def exitSimbolo(self, ctx:TuringDSLParser.SimboloContext):
         pass
-
+    # TODO weas de simbolo blanco
 
 
 del TuringDSLParser

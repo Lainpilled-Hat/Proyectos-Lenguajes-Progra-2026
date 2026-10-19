@@ -191,7 +191,7 @@ class TransformadorAST(TuringDSLVisitor):
         self,
         ctx: TuringDSLParser.Simbolo_blancoContext
     ):
-        return ctx.simbolo().getText()  # Devuelve el símbolo blanco
+        return ctx.simbolo_blanco().getText()  # Devuelve el símbolo blanco
     
     # Uso de una subrutina
     def usa_subrutina(
