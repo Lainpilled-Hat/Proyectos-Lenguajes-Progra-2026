@@ -1,3 +1,5 @@
+.DEFAULT_GOAL := help
+.PHONY: all run clean
 # Checkear para la variable de entorno Windows_NT
 OS ?= $(shell echo %OS% 2>/dev/null) # Fetch %OS% from Windows Shell
 ifeq ($(OS),Windows_NT) # Windows confirmado
@@ -13,23 +15,20 @@ else
 	endif
 endif
 
-ifeq ($(IS_WINDOWS),1)
-	# Comandos de windows
+ifeq ($(IS_WINDOWS),1) # Comandos de Windows
 	RM := del /f /q
 	RMDIR := rd /s /q
 	MKDIR := mkdir
 	CP := copy /y
 	EXE_EXT := .exe
-else
-	# Comandos de UNIX (Linux/MacOS/MSYS2 Git Bash)
+else # Comandos de UNIX (Linux/MacOS/MSYS2 Git Bash)
 	RM := rm -f
 	RMDIR := rm -rf
 	MKDIR := mkdir -p
 	CP := cp
 	EXE_EXT := 
 endif
-.DEFAULT_GOAL := help
-.PHONY: all run clean
+
 VENV = venv
 ifeq ($(IS_UNIX),1)
 	PYTHON = $(VENV)/bin/python3
@@ -46,7 +45,10 @@ help:
 	@echo "[VENV]: VENV=venv"
 	@echo "[INPUT1]: INPUT1=ejemplo.tm"
 	@echo "[INPUT2]: INPUT2=1011"
-
+	@echo "UNIX Status"
+	@echo $(IS_UNIX)
+	@echo "Windows Status"
+	@echo $(IS_WINDOWS)
 $(VENV)/bin/activate: requirements.txt
 	python -m venv $(VENV)
 	$(PIP) install -r requirements.txt
@@ -56,5 +58,6 @@ run: $(VENV)/bin/activate
 	$(PYTHON) main.py $(INPUT1) $(INPUT2)
 
 clean:
-	$(RMDIR) __pycache__ *.pyc
-	$(RMDIR) $(VENV)
+	$(RMDIR) __pycache__ 
+	$(RMDIR) $(VENV) 
+	
