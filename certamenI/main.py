@@ -6,22 +6,17 @@ from interprete import InterpreteTuring
 
 def inicio():
 
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 4 or len(sys.argv) > 5:
         print(
             "Uso: python main.py <archivo.tm> "
-            "<cinta_inicial> [nombre_maquina]"
+            "<cinta_inicial> <simbolo_blanco> [nombre_maquina]"
         )
         sys.exit(1)
 
     archivo = sys.argv[1] # Primer argumento: archivo que contiene la máquina de Turing (.tm)
     cinta_entrada = sys.argv[2] # Segundo argumento: cinta inicial
-
-    nombre_maquina = None
-
-
-   # Si se entrega un tercer argumento, es el nombre de la máquina a ejecutar
-    if len(sys.argv) >= 4:
-        nombre_maquina = sys.argv[3]
+    simbolo_blanco = sys.argv[3] # Tercer argumento: símbolo que representa el espacio en blanco en la cinta
+    nombre_maquina = sys.argv[4] if len(sys.argv) == 5 else None # Cuarto argumento: nombre de la máquina de Turing, opcional
 
     try:
         ast = procesar_archivo(archivo)  # Lee el archivo DSL y construye el árbol sintáctico.
@@ -29,7 +24,8 @@ def inicio():
         # Análisis semántico 
         maquina = construir_maquina_compilada(
             ast,
-            nombre_maquina
+            nombre_maquina,
+            simbolo_blanco
         )
 
         # Simular

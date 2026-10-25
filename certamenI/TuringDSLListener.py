@@ -71,12 +71,12 @@ class TuringDSLListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by TuringDSLParser#usa_subrutina.
-    def enterUsa_subrutina(self, ctx:TuringDSLParser.Usa_subrutinaContext):
+    # Enter a parse tree produced by TuringDSLParser#invocacion_subrutina.
+    def enterInvocacion_subrutina(self, ctx:TuringDSLParser.Invocacion_subrutinaContext):
         pass
 
-    # Exit a parse tree produced by TuringDSLParser#usa_subrutina.
-    def exitUsa_subrutina(self, ctx:TuringDSLParser.Usa_subrutinaContext):
+    # Exit a parse tree produced by TuringDSLParser#invocacion_subrutina.
+    def exitInvocacion_subrutina(self, ctx:TuringDSLParser.Invocacion_subrutinaContext):
         pass
 
 

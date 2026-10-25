@@ -21,40 +21,42 @@ ifeq ($(IS_WINDOWS),1) # Comandos de Windows
 	MKDIR := mkdir
 	CP := copy /y
 	EXE_EXT := .exe
+	VENV_ACTIVATE = $(VENV)/Scripts/activate.bat
 else # Comandos de UNIX (Linux/MacOS/MSYS2 Git Bash)
 	RM := rm -f
 	RMDIR := rm -rf
 	MKDIR := mkdir -p
 	CP := cp
-	EXE_EXT := 
+	EXE_EXT :=
+	VENV_ACTIVATE = $(VENV)/bin/activate
 endif
 
-VENV = venv
+VENV ?= venv
 ifeq ($(IS_UNIX),1)
 	PYTHON = $(VENV)/bin/python3
 	PIP = $(VENV)/bin/pip
 else ifeq ($(IS_WINDOWS),1)
-	PYTHON = $(VENV)/Scripts/python.exe
-	PIP = $(VENV)/Scripts/pip.exe
+	PYTHON = $(VENV)\Scripts\python.exe
+	PIP = $(VENV)\Scripts\pip.exe
 endif
-INPUT1 = ./ejemplo.tm
-INPUT2 = 1011
+INPUT1 ?= ./ejemplo.tm
+INPUT2 ?= 1011
+INPUT3 ?= _
+INPUT4 ?=
 help:
-	@echo "[VENV] [INPUT] run		Ejecutar script"
-	@echo "[VENV] clean			Remover artefactos de build"
-	@echo "[VENV]: VENV=venv"
-	@echo "[INPUT1]: INPUT1=ejemplo.tm"
-	@echo "[INPUT2]: INPUT2=1011"
+	@echo "make run INPUT1=ejemplo.tm INPUT2=1011 INPUT3=_ [INPUT4=NombreMaquina]"
+	@echo "make clean VENV=venv"
+	@echo "INPUT1: archivo .tm; INPUT2: cinta inicial; INPUT3: simbolo blanco"
+	@echo "INPUT4: nombre de maquina opcional"
 
-$(VENV)/bin/activate: requirements.txt
+$(VENV_ACTIVATE): requirements.txt
 	python -m venv $(VENV)
 	$(PIP) install -r requirements.txt
 	$(PYTHON) -m py_compile analizador.py interprete.py main.py nodos.py semantica.py
 
-run: $(VENV)/bin/activate
-	$(PYTHON) main.py $(INPUT1) $(INPUT2)
+run: $(VENV_ACTIVATE)
+	$(PYTHON) main.py "$(INPUT1)" "$(INPUT2)" "$(INPUT3)" $(if $(strip $(INPUT4)),"$(INPUT4)")
 
 clean:
-	$(RMDIR) __pycache__ 
-	$(RMDIR) $(VENV) 
-	
+	$(RMDIR) __pycache__
+	$(RMDIR) $(VENV)

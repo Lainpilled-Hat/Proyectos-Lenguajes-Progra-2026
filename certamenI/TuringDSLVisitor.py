@@ -44,8 +44,8 @@ class TuringDSLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by TuringDSLParser#usa_subrutina.
-    def visitUsa_subrutina(self, ctx:TuringDSLParser.Usa_subrutinaContext):
+    # Visit a parse tree produced by TuringDSLParser#invocacion_subrutina.
+    def visitInvocacion_subrutina(self, ctx:TuringDSLParser.Invocacion_subrutinaContext):
         return self.visitChildren(ctx)
 
 

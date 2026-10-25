@@ -7,6 +7,12 @@ class InterpreteTuring:
     # Elementos de la simulación
     def __init__(self, maquina: MaquinaProcesada, cinta_inicial: str): 
         self.maquina = maquina # Máquina
+        simbolos_invalidos = set(cinta_inicial) - maquina.alfabeto
+        if simbolos_invalidos:
+            raise ValueError(
+                "La cinta inicial contiene símbolos fuera del alfabeto: "
+                + ", ".join(sorted(simbolos_invalidos))
+            )
         self.cinta = list(cinta_inicial) if cinta_inicial else [maquina.simbolo_blanco] # Convierte la cinta de entrada en una lista de símbolos. Si la cinta está vacía, se utiliza el símbolo blanco
         self.cabezal = 0 # Se inicializa el cabezal en la posición 0
         self.estado_actual = maquina.estado_inicial # La máquina comienza en su estado inicial

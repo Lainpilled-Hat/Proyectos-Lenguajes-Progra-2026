@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import List, Set, Dict
+from typing import List, Set, Dict, Optional
 
 
 # Direcciones En las que se puede mover el cabezal
@@ -22,13 +22,13 @@ class ReglaAST:
 @dataclass
 class InvocacionSubrutinaAST:
     nombre_subrutina: str
-    parametro_entero: int
+    parametro_entero: Optional[int] = None
 
 # Subrutina declarada en el lenguaje
 @dataclass
 class SubrutinaAST:
     nombre: str
-    parametro_nombre: str
+    parametro_nombre: Optional[str] = None
     reglas: List[ReglaAST] = field(default_factory=list)
 
 # Máquina de Turing dentro del AST
@@ -36,7 +36,6 @@ class SubrutinaAST:
 class MaquinaAST:
     nombre: str
     alfabeto: Set[str] = field(default_factory=set)
-    simbolo_blanco: str = "_"
     estados: Set[str] = field(default_factory=set)
     estado_inicial: str = ""
     estados_finales: Set[str] = field(default_factory=set)

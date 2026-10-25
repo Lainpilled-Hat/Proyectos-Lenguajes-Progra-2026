@@ -59,8 +59,8 @@ class TransformadorAST(TuringDSLVisitor):
     def visitFinales(self, ctx):
         return self.finales(ctx)
 
-    def visitUsa_subrutina(self, ctx):
-        return self.usa_subrutina(ctx)
+    def visitInvocacion_subrutina(self, ctx):
+        return self.invocacion_subrutina(ctx)
 
     def visitTransiciones(self, ctx):
         return self.transiciones(ctx)
@@ -104,7 +104,8 @@ class TransformadorAST(TuringDSLVisitor):
         ctx: TuringDSLParser.SubrutinaContext
     ):
         nombre = ctx.CNAME(0).getText() # Nombre de la subrutina
-        param = ctx.CNAME(1).getText() # Nombre del parámetro
+        parametros = ctx.CNAME()
+        param = parametros[1].getText() if len(parametros) > 1 else None
         reglas = self.visit(ctx.reglas()) #  Reglas que forman la subrutina
 
          # Construye el nodo AST
@@ -128,7 +129,7 @@ class TransformadorAST(TuringDSLVisitor):
         # Subrutinas utilizadas por la máquina
         subs = [
             self.visit(u)
-            for u in ctx.usa_subrutina()
+            for u in ctx.invocacion_subrutina()
         ]
 
         trans = self.visit(ctx.transiciones())  # Transiciones de la máquina
@@ -137,7 +138,6 @@ class TransformadorAST(TuringDSLVisitor):
         return MaquinaAST(
             nombre,
             alf,
-            "_", # Símbolo blanco
             est,
             ini,
             fin,
@@ -184,14 +184,14 @@ class TransformadorAST(TuringDSLVisitor):
         }
 
     # Uso de una subrutina
-    def usa_subrutina(
+    def invocacion_subrutina(
         self,
-        ctx: TuringDSLParser.Usa_subrutinaContext
+        ctx: TuringDSLParser.Invocacion_subrutinaContext
     ):
-        # Obtiene el nombre de la subrutina
+        parametro = ctx.INT()
         return InvocacionSubrutinaAST(
             ctx.CNAME().getText(),
-            int(ctx.INT().getText())
+            int(parametro.getText()) if parametro else None
         )
 
     # Transiciones de una máquina
